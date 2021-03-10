@@ -23,7 +23,8 @@ module.exports.createNewUser = async (req, res, next) => {
 module.exports.checkUser = (req, res, next) => {
   User.findOne({ login: req.body.login }).then((result) => {
     if (result) {
-      if (req.body.password === result.password) {
+      const userPasswordHash = sha1(req.body.password);
+      if (userPasswordHash === result.password) {
         return res.status(200).send();
       } else {
         return res.status(404).send({ error: "Пароль не верный" });
