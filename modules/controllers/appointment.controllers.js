@@ -16,6 +16,18 @@ module.exports.createNewAppointment = (req, res, next) => {
     .catch((error) => {});
 };
 
-module.exports.changeAppointment = (req, res, next) => {};
+module.exports.changeAppointment = (req, res, next) => {
+  Appointments.updateOne({_id: req.body._id}, req.body).then(result => {
+    Appointments.find().then(result => {
+      res.send({data: result});
+    });
+  })
+};
 
-module.exports.deleteAppointment = (req, res, next) => {};
+module.exports.deleteAppointment = (req, res, next) => {
+  Appointments.deleteOne({_id: req.body.id}).then(result => {
+    Appointments.find().then(result => {
+      res.send({data: result});
+    })
+  })
+};
